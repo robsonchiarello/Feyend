@@ -1,0 +1,37 @@
+.qrscanner video {
+ // max-width: 100%;
+  float: left;
+  padding-top: 15%;
+  right: 30%;
+  position: relative;
+}
+
+.row-element-set {
+  display: flex;
+  flex-direction: column;
+}
+.row-element {
+  padding: .2em 0em;
+}
+
+.row-element-set-QRScanner
+{
+  max-width: 30em; 
+  display: flex;
+  flex-direction: column;
+}
+
+body
+{
+  display: flex;
+  justify-content: center;
+}
+
+.form-field-caption {
+  font-weight: bold;
+}
+
+.form-field-input
+{
+ width: 100%; 
+}

@@ -1,0 +1,174 @@
+<!-- /JsQRScanner-master/war/index.html -->
+<!doctype html>
+
+<!-- The DOCTYPE declaration above will set the     -->
+<!-- browser's rendering engine into                -->
+<!-- "Standards Mode". Replacing this declaration   -->
+<!-- with a "Quirks Mode" doctype is not supported. -->
+
+<html lang="pt-br">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Janusz Białobrzewski" />
+    <!--                                                               -->
+    <!-- Consider inlining CSS to reduce the number of requested files -->
+    <!--                                                               -->
+    <link type="text/css" rel="stylesheet" href="JsQRScanner.css">
+
+    <!--                                           -->
+    <!-- Any title is fine                         -->
+    <!--                                           -->
+    <title>Feyend QR Reader</title>
+    
+    <!--                                           -->
+    <!-- This script loads your compiled module.   -->
+    <script type="text/javascript" src="/jsPretty/jsqrscanner.nocache.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+  <!-- Bootstrap -->
+    <script language="javascript" src="../../TCC/jquery.min.js" type="text/javascript"></script>
+    <script language="javascript" src="../../TCC/bootstrap.min.js" type="text/javascript"></script>
+    <script language="javascript" src="../../TCC/feyend.js" type="text/javascript"></script>
+
+   
+
+
+
+    <link href="../../TCC/bootstrap.css" rel="stylesheet" type="text/css"/>
+    <link href="../../TCC/feyend.css" rel="stylesheet" type="text/css"/>
+    <link href="../../TCC/simple-sidebar.css" rel="stylesheet">
+
+    <link rel="shortcut icon" href="../../TCC/favicon.ico"/>
+  </head>
+
+  <body style="background: lightgrey" onload="replicatevariables()">
+
+
+
+<div id="wrapper">
+
+        <!-- Sidebar -->
+       
+
+       
+
+
+        <nav class="navbar navbar-inverse navbar-fixed-top" id="menu" role="navigation" style="background-color: white">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <ul class="nav navbar-nav navbar-left">
+                        <li>
+                            <a class="navbar-brand" onclick="chamainicio()" style="padding: 0px 20px 0px 20px"><img src="../../TCC/Feyend.png"/></a>
+                            <a onclick="chamainicio()"><font color = "black">Feyend</font></a>
+                        </li>
+                    </ul>
+                    
+                </div>
+               
+    
+                    
+                        
+                     
+                </div>
+            
+        </nav>
+</div>
+
+
+
+
+    <!-- RECOMMENDED if your web app will not function without JavaScript enabled -->
+    
+
+   
+        <div class="qrscanner" id="scanner">
+        </div>
+     
+      
+  <script type="text/javascript">
+
+
+
+  
+
+    function onQRCodeScanned(scannedText)
+    {
+    	var salaatual = scannedText;
+      chamanextinstructions(area, sala, salaatual);
+    }
+    
+    function provideVideo()
+    {
+        var n = navigator;
+
+        if (n.mediaDevices && n.mediaDevices.getUserMedia)
+        {
+          return n.mediaDevices.getUserMedia({
+            video: {
+              facingMode: "environment"
+            },
+            audio: false
+          });
+        } 
+        
+        return Promise.reject('Your browser does not support getUserMedia');
+    }
+
+  
+
+
+    function provideVideoQQ()
+    {
+
+        return navigator.mediaDevices.enumerateDevices()
+        .then(function(devices) {
+            var exCameras = [];
+            devices.forEach(function(device) {
+            if (device.kind === 'videoinput') {
+              exCameras.push(device.deviceId)
+            }
+         });
+            
+            return Promise.resolve(exCameras);
+        }).then(function(ids){
+            if(ids.length === 0)
+            {
+              return Promise.reject('Could not find a webcam');
+            }
+            
+            return navigator.mediaDevices.getUserMedia({
+                video: {
+                  'optional': [{
+                    'sourceId': ids.length === 1 ? ids[0] : ids[1]//this way QQ browser opens the rear camera
+
+                   
+
+
+                    }]
+                }
+            });        
+        });                
+    }
+    
+    //this function will be called when JsQRScanner is ready to use
+    function JsQRScannerReady()
+    {
+        //create a new scanner passing to it a callback function that will be invoked when
+        //the scanner succesfully scan a QR code
+        var jbScanner = new JsQRScanner(onQRCodeScanned);
+        //var jbScanner = new JsQRScanner(onQRCodeScanned, provideVideo);
+        //reduce the size of analyzed image to increase performance on mobile devices
+        jbScanner.setSnapImageMaxSize(300);
+    	var scannerParentElement = document.getElementById("scanner");
+    	if(scannerParentElement)
+    	{
+    	    //append the jbScanner to an existing DOM element
+    		jbScanner.appendTo(scannerParentElement);
+    	}        
+    }
+  </script>  
+  </div>  
+  </body>
+</html>
